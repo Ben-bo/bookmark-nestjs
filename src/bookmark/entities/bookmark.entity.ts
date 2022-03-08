@@ -1,5 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { User } from 'src/user/entities/user.entity';
 
 @Table
 export class Bookmark extends Model<Bookmark> {
@@ -19,4 +27,13 @@ export class Bookmark extends Model<Bookmark> {
     allowNull: true,
   })
   link: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  userId: string;
+  @BelongsTo(() => User)
+  user: User;
 }
