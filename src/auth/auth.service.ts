@@ -7,8 +7,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { USER_REPOSITORY } from 'src/database/constant';
-import { User } from 'src/user/entities/user.entity';
+import { USER_REPOSITORY } from '../database/constant';
+import { User } from '../user/entities/user.entity';
 import { AuthDto } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';

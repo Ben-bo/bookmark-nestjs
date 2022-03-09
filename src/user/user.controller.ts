@@ -1,7 +1,7 @@
 import { Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
 
-import { GetUser } from 'src/auth/costume-decorator/getUser.decorator';
-import { JwtGuard } from 'src/auth/guard/jwt.guard';
+import { GetUser } from '../auth/costume-decorator/getUser.decorator';
+import { JwtGuard } from '../auth/guard/jwt.guard';
 import { User } from './entities/user.entity';
 
 @Controller('user')

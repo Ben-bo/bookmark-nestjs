@@ -1,4 +1,4 @@
-import { BOOKMARK_REPOSITORY } from 'src/database/constant';
+import { BOOKMARK_REPOSITORY } from '../database/constant';
 import { Bookmark } from './entities/bookmark.entity';
 
 export const BookmarkProvider = [

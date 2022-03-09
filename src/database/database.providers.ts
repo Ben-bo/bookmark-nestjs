@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Sequelize } from 'sequelize-typescript';
-import { Bookmark } from 'src/bookmark/entities/bookmark.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Bookmark } from '../bookmark/entities/bookmark.entity';
+import { User } from '../user/entities/user.entity';
 import { SEQUELIZE, DEVELOPMENT, TEST, PRODUCTION } from './constant';
 import { databaseConfig } from './database.config';
 

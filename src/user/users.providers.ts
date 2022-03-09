@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { USER_REPOSITORY } from 'src/database/constant';
+import { USER_REPOSITORY } from '../database/constant';
 import { User } from './entities/user.entity';
 
 export const UserProviders = [
