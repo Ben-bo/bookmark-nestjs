@@ -2,18 +2,39 @@ import * as bcrypt from 'bcrypt';
 import {
   BadGatewayException,
   BadRequestException,
+  ForbiddenException,
   Inject,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { USER_REPOSITORY } from 'src/database/constant';
 import { User } from 'src/user/entities/user.entity';
 import { AuthDto } from './dto/auth.dto';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject(USER_REPOSITORY) private userRepository: typeof User) {}
+  constructor(
+    @Inject(USER_REPOSITORY) private userRepository: typeof User,
+    private jwt: JwtService,
+    private config: ConfigService,
+  ) {}
   async login(data: AuthDto) {
-    return await this.userRepository.findAll();
+    const isUserExist = await this.userRepository.findOne({
+      where: { email: data.email },
+    });
+    if (!isUserExist) {
+      throw new NotFoundException('email not found');
+    }
+
+    const isMatch = await bcrypt.compare(data.password, isUserExist.password);
+    if (!isMatch) {
+      throw new ForbiddenException('wrong password');
+    }
+    const { password, ...other } = isUserExist['dataValues'];
+    const token = await this.signToken(other.id, other.email);
+    return { message: 'OK', token };
   }
   async register(data: AuthDto) {
     try {
@@ -36,12 +57,22 @@ export class AuthService {
         password: hashedPassword,
       });
       const { password, ...other } = regis['dataValues'];
-      return other;
+      return { message: 'success', data: other };
     } catch (error) {
       if (error.name === 'SequelizeUniqueConstraintError') {
         throw new BadGatewayException('Email already exist');
       }
       return error;
     }
+  }
+  //generate token
+  async signToken(id: number, email: string) {
+    const payload = {
+      id,
+      email,
+    };
+    //token expired in 15min
+    const secret_key = this.config.get('JWTKEY');
+    return this.jwt.sign(payload, { expiresIn: '1d', secret: secret_key });
   }
 }

@@ -8,4 +8,10 @@ export class UserService {
   async getData() {
     return await this.userRepository.findAll();
   }
+  async findById(id: number) {
+    return await this.userRepository.findOne({ where: { id } });
+  }
+  async findByEmail(email: string) {
+    return this.userRepository.findOne({ where: { email } });
+  }
 }
