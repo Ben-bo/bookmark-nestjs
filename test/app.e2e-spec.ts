@@ -69,7 +69,7 @@ describe('App e2e', () => {
     });
     describe('Signup', () => {
       const dto: AuthDto = {
-        email: 'beni@gmail.com',
+        email: 'beni2@gmail.com',
         password: '123456',
       };
       it('it should throw an error 400 if password is empty', () => {

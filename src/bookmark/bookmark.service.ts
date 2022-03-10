@@ -1,5 +1,6 @@
 import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
-import { Op } from 'sequelize/types';
+import { Op } from 'sequelize';
+
 import { BOOKMARK_REPOSITORY } from '../database/constant';
 import { BookmarkDto } from './dto/bookmark.dto';
 import { EditBookmarkDto } from './dto/edit-bookmark.dto';
