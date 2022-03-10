@@ -68,7 +68,7 @@ describe('App e2e', () => {
     });
     describe('Signup', () => {
       const dto: AuthDto = {
-        email: 'beni4@gmail.com',
+        email: 'beni5@gmail.com',
         password: '123456',
       };
       it('it should throw an error 400 if password is empty', () => {
@@ -104,7 +104,7 @@ describe('App e2e', () => {
       it('it should signup', () => {
         return pactum
           .spec()
-          .get('auth/signup')
+          .post('auth/signup')
           .withBody(dto)
           .expectStatus(201)
           .inspect();
@@ -114,7 +114,11 @@ describe('App e2e', () => {
   describe('User', () => {
     describe('Get Me', () => {
       it('it should get current user', () => {
-        return pactum.spec().post('user/me').expectStatus(200);
+        return pactum
+          .spec()
+          .get('user/me')
+          .withHeaders({ Authorization: 'Bearer $S{userAt}' })
+          .expectStatus(200);
       });
     });
     describe('Edit User', () => {});

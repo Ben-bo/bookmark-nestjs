@@ -1,5 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { USER_REPOSITORY } from '../database/constant';
+import { EditDto } from './dto/edit-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -13,5 +14,12 @@ export class UserService {
   }
   async findByEmail(email: string) {
     return this.userRepository.findOne({ where: { email } });
+  }
+  async patchData(id: number, user: EditDto) {
+    const findUser = await this.findById(id);
+    if (!findUser) {
+      throw new NotFoundException('id not found');
+    }
+    return await this.userRepository.update(user, { where: { id } });
   }
 }
