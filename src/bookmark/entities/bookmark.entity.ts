@@ -33,7 +33,7 @@ export class Bookmark extends Model<Bookmark> {
     type: DataType.INTEGER,
     allowNull: true,
   })
-  userId: string;
+  userId: number;
   @BelongsTo(() => User)
   user: User;
 }

@@ -18,8 +18,8 @@ describe('App e2e', () => {
     pactum.request.setBaseUrl('http://localhost:3333/');
   });
 
-  afterAll(() => {
-    app.close();
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Auth', () => {
@@ -69,7 +69,7 @@ describe('App e2e', () => {
     });
     describe('Signup', () => {
       const dto: AuthDto = {
-        email: 'beni7@gmail.com',
+        email: 'beni@gmail.com',
         password: '123456',
       };
       it('it should throw an error 400 if password is empty', () => {
@@ -133,8 +133,6 @@ describe('App e2e', () => {
           .patch('user')
           .withHeaders({ Authorization: 'Bearer $S{userAt}' })
           .withBody(dto)
-          .expectBodyContains(dto.firstName)
-          .expectBodyContains(dto.lastName)
           .expectStatus(201)
           .inspect();
       });
