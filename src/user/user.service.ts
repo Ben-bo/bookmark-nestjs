@@ -20,6 +20,7 @@ export class UserService {
     if (!findUser) {
       throw new NotFoundException('id not found');
     }
-    return await this.userRepository.update(user, { where: { id } });
+    await this.userRepository.update({ ...user }, { where: { id } });
+    return { message: 'update success', id };
   }
 }
