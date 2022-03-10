@@ -3,6 +3,7 @@ import { Test } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 import * as pactum from 'pactum';
 import { AuthDto } from '../src/auth/dto/auth.dto';
+import { EditDto } from '../src/user/dto/edit-user.dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -68,7 +69,7 @@ describe('App e2e', () => {
     });
     describe('Signup', () => {
       const dto: AuthDto = {
-        email: 'beni5@gmail.com',
+        email: 'beni7@gmail.com',
         password: '123456',
       };
       it('it should throw an error 400 if password is empty', () => {
@@ -121,7 +122,23 @@ describe('App e2e', () => {
           .expectStatus(200);
       });
     });
-    describe('Edit User', () => {});
+    describe('Edit User', () => {
+      const dto: EditDto = {
+        firstName: 'Beni',
+        lastName: 'Iskandar',
+      };
+      it('should update current user', () => {
+        return pactum
+          .spec()
+          .patch('user')
+          .withHeaders({ Authorization: 'Bearer $S{userAt}' })
+          .withBody(dto)
+          .expectBodyContains(dto.firstName)
+          .expectBodyContains(dto.lastName)
+          .expectStatus(201)
+          .inspect();
+      });
+    });
   });
   describe('Bookmark', () => {
     describe('Create Bookmark', () => {});

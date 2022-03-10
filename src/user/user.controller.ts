@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Patch,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 
 import { GetUser } from '../auth/costume-decorator/getUser.decorator';
 import { JwtGuard } from '../auth/guard/jwt.guard';
@@ -20,6 +29,7 @@ export class UserController {
     return user;
   }
 
+  @HttpCode(HttpStatus.CREATED)
   @Patch()
   async updateData(@GetUser('id') id: number, @Body() user: EditDto) {
     return await this.userService.patchData(id, user);
